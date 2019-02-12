@@ -11,35 +11,34 @@ class App extends Component {
   }
 
   componentDidMount(){
-    setTimeout(() => {
-      this.setState({
-        movies: [
-          {
-            title: "Matrix",
-            poster: "1",
-          },
-          {
-            title: "Full Metal Jacket",
-            poster: "1",
-          },
-          {
-            title: "Oldboy",
-            poster: "1",
-          },
-          {
-            title: "Stgar Wars",
-            poster: "1",
-          },
-        ]
-      })
-    }, 1000);
+    this._getMovies();
   }
 
   _renderMovies = () => {
-    const movies = this.state.movies.map((movie, index) => {
-      return <Movie title={movie.title} poster={movie.poster} key={index} />
+    const movies = this.state.movies.map(movie => {
+      return (
+        <Movie
+          key={movie.id}
+          title={movie.title_english}
+          poster={movie.medium_cover_image}
+          genres={movie.genres}
+          synopsis={movie.synopsis}
+        />
+      )
     })
     return movies;
+  }
+
+  _getMovies = () => {
+    fetch('https://yts.am/api/v2/list_movies.json?sort_by=download_count')
+    .then(res => res.json())
+    .then(json => {
+      this.setState({
+        movies: json.data.movies
+      });
+    })
+    .catch(e => console.log(e));
+
   }
 
   render() {
