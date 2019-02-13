@@ -33,5 +33,5 @@ Add Code in package.json
 >   "gh-pages": "^2.0.1"
 > }
 >}
-
+.
 `npm run deploy`
